@@ -1,0 +1,19 @@
+{
+  "name": "CardLife DB",
+  "description": "Google Chrome extension for managing LCG card game decks.",
+  "version": "0.1",
+  "dependencies": {
+    "Angular.uuid2": "https://github.com/MBehtemam/angular-uuid.git",
+    "ScrollToFixed": "https://github.com/bigspotteddog/ScrollToFixed.git#~1.0.6",
+    "angular": "1.4.x",
+    "angular-animate": "1.4.x",
+    "angular-chrome-storage": "infomofo/angular-chrome-storage",
+    "angular-cookies": "~1.4.5",
+    "angular-ui-router": "~0.2.x",
+    "components-font-awesome": "~4.4.0",
+    "jquery": "~2"
+  },
+  "resolutions": {
+    "angular": "1.4.x"
+  }
+}

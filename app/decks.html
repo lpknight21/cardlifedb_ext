@@ -1,0 +1,245 @@
+<div class="container-fluid" ng-show="pageController.isSet(2)">
+    <div class="col-lg-2 col-md3 col-sm-3" sytle="padding-top: 15px;" ng-hide="deckController.loggedIn">
+        <div class="row">
+            <span>
+                <b>You are not logged in! Click
+                <a href ng-click="pageController.setTab(5)" ng-class="{activetab: pageController.isSet(5)}">here</a>
+                to login or create an account.</b>
+            </span>
+        </div>
+    </div>
+	<div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 15px;" ng-show="deckController.loggedIn">
+	 	<div class="row">
+            <label class="card-text-search"><input class="form-control" ng-model="deckSearch" placeholder="Search decks by card name, traits, etc."></label>
+            <button type="button" class="btn btn-success" style="width: 100%;" ng-click="deckController.newDeck()">Create New Deck</button>
+            <!-- <div style="padding-top: 10px;">
+                <button type="button" class="btn btn-success" style="width: 100%;" ng-click="deckController.openImportModal()">Import Deck</button>
+            </div> -->
+
+            <div class="list-group" style="padding-top: 18px;">
+            	<a href="#" class="list-group-item" ng-repeat="deck in deckController.deckList | filter: deckSearch" ng-click="deckController.loadDeck(deck)">
+            		<label>{{deck.name}}</label>
+            		<div><label style="font-weight: normal; font-size: 12px; color: grey;">{{deckController.getHeroes(deck)}}</label></div>
+            	</a>
+            </div>
+            <div class="row"><p style="color:grey; font-style: italic; text-align: center;">{{deckController.deckList.length}} / 200 Decks</p></div>
+     	</div>
+	</div>
+	<div class="col-md-5" style="padding-top: 15px;">
+		<div class="row" style="padding-left: 20px;">
+			<!-- <h2>{{deckController.currentDeck.name}}</h2> -->
+			<div class="col-sm-3" ng-repeat="card in deckController.getCardsByType('hero') | limitTo:3">
+				<img ng-src="{{cardsController.imageURL}}/{{card.image}}"
+            	             uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+                	         popover-placement="left" popover-trigger="mouseenter"
+                    	     class="img-rounded card-tab-image-src"/>
+                <div class="row">
+                	<a class="hero-name-deck">{{card.name}}</a>
+                </div>
+        	</div>
+        </div>
+        <div class="row" style="padding-left: 20px;">
+        	<div class="col-sm-6">
+				<h4>Allies ({{deckController.currentDeckStats.totalType.allies}})</h4>
+				<div ng-repeat="card in deckController.getCardsByType('ally')">{{card.quantity}}x <a uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+         	                	popover-placement="left" popover-trigger="mouseenter"
+            	             	ng-class="cardsController.getCardImageType(card.type)">{{card.name}}</a>
+        		</div>
+        		<h4>Events ({{deckController.currentDeckStats.totalType.events}})</h4>
+				<div ng-repeat="card in deckController.getCardsByType('event')">{{card.quantity}}x <a uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+        	                 	popover-placement="left" popover-trigger="mouseenter"
+        	                 	ng-class="cardsController.getCardImageType(card.type)">{{card.name}}</a>
+       			</div>
+        	</div>
+        	<div class="col-sm-6">
+        		<h4>Attachments ({{deckController.currentDeckStats.totalType.attachments}})</h4>
+				<div ng-repeat="card in deckController.getCardsByType('attachment')">{{card.quantity}}x <a uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+            	             	popover-placement="left" popover-trigger="mouseenter"
+                	         	ng-class="cardsController.getCardImageType(card.type)">{{card.name}}</a>
+        		</div>
+        		<h4>Side Quests ({{deckController.currentDeckStats.totalType.sideQuests}})</h4>
+				<div ng-repeat="card in deckController.getCardsByType('side quest')">{{card.quantity}}x <a uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+        	                 	popover-placement="left" popover-trigger="mouseenter"
+        	                 	ng-class="cardsController.getCardImageType(card.type)">{{card.name}}</a>
+        		</div>
+        	</div>
+        </div>
+	</div>
+	<div class="col-md-4" style="padding-top: 15px;">
+		<uib-tabset>
+            <uib-tab heading="Build">
+            	<div class="row" style="padding-top: 15px;">
+            		<div class="col-md-12 text-right">
+            			<div class="btn-group">
+            				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" ng-click="deckController.toggleFilterCurrentDeck()" aria-expaned="false">
+            					Current Deck
+            				</button>
+            			</div>
+            			<div class="btn-group">
+            				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expaned="false">
+            					Set Filter
+            					<span class="caret"></span>
+            				</button>
+            				<ul class="dropdown-menu filter pull-right">
+            					<li ng-repeat="set in deckController.lcgSets">
+            						<label>
+            							<input type="checkbox" checklist-model="deckController.lcgFilterSets"  checklist-value="set.name">
+            							{{set.name}}
+            						</label>
+            					</li>
+            				</ul>
+            			</div>
+            		</div>
+            	</div>
+            	<div class="row">
+            		<label class="card-text-search deck-text-filter-top"><input class="form-control" ng-model="cardSearch.name" placeholder="Search by name."></label>
+                    <label class="card-text-search deck-text-filter"><input class="form-control" ng-model="cardSearch.traits" placeholder="Search by traits."></label>
+                    <label class="card-text-search deck-text-filter"><input class="form-control" ng-model="cardSearch.text" placeholder="Search by card text."></label>
+     			</div>
+     			<div class="row" style="padding-bottom: 10px;">
+     				<div class="col-xs-6">
+     					<div class="btn-group" data-toggle="buttons">
+     						<label class="btn btn-sm btn-default active" uib-tooltip="Leadership" ng-click="deckController.addCardFilter('leadership', 'sphere')">
+     							<input type="checkbox" name="leadership">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Leadership.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm active" uib-tooltip="Tactics" ng-click="deckController.addCardFilter('tactics', 'sphere')">
+     							<input type="checkbox" name="tactics">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Tactics.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm active" uib-tooltip="Spirit" ng-click="deckController.addCardFilter('spirit', 'sphere')">
+     							<input type="checkbox" name="spirit">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Spirit.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm active" uib-tooltip="Lore" ng-click="deckController.addCardFilter('lore', 'sphere')">
+     							<input type="checkbox" name="lore">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Lore.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm active" uib-tooltip="Neutral" ng-click="deckController.addCardFilter('neutral', 'sphere')">
+     							<input type="checkbox" name="neutral">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/neutral.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm" uib-tooltip="Baggins" ng-click="deckController.addCardFilter('baggins', 'sphere')">
+     							<input type="checkbox" name="baggins">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Baggins.png"/>
+     						</label>
+     						<label class="btn btn-default btn-sm" uib-tooltip="Fellowship" ng-click="deckController.addCardFilter('fellowship', 'sphere')">
+     							<input type="checkbox" name="fellowship">
+     							<img class="icon-sphere-deck-list-sm" src="img/game_icons/Fellowship.png"/>
+     						</label>
+     					</div>
+     				</div>
+     				<div class="col-xs-6 text-right">
+     					<div class="btn-group" data-toggle="buttons">
+     						<label class="btn btn-sm btn-default active" uib-tooltip="Hero" ng-click="deckController.addCardFilter('hero', 'type')">
+     							<input type="checkbox" name="hero">
+     							<span class="glyphicon glyphicon-star-empty"></span>
+     						</label>
+     						<label class="btn btn-sm btn-default" uib-tooltip="Ally" ng-click="deckController.addCardFilter('ally', 'type')">
+     							<input type="checkbox" name="ally">
+     							<span class="glyphicon glyphicon-user"></span>
+     						</label>
+     						<label class="btn btn-sm btn-default" uib-tooltip="Attachment" ng-click="deckController.addCardFilter('attachment', 'type')">
+     							<input type="checkbox" name="attachment">
+     							<span class="glyphicon glyphicon-paperclip"></span>
+     						</label>
+     						<label class="btn btn-sm btn-default" uib-tooltip="Event" ng-click="deckController.addCardFilter('event', 'type')">
+     							<input type="checkbox" name="event">
+     							<span class="glyphicon glyphicon-flash"></span>
+     						</label>
+     						<label class="btn btn-sm btn-default" uib-tooltip="Quest" ng-click="deckController.addCardFilter('side quest', 'type')">
+     							<input type="checkbox" name="side_quest">
+     							<span class="glyphicon glyphicon-tent"></span>
+     						</label>
+     					</div>
+     				</div>
+     			</div>
+				<table class="table table-condensed table-hover">
+					<thead>
+						<th><a href="#" ng-click="sortType = 'quantity'; sortReverse = !sortReverse">
+							Quantity
+						</a></th>
+						<th><a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+							Name
+						</a></th>
+						<th><a href="#" ng-click="sortType = 'type'; sortReverse = !sortReverse">
+							Type
+						</a></th>
+						<th><a href="#" ng-click="sortType = 'faction'; sortReverse = !sortReverse">
+							Sphere
+						</a></th>
+					</thead>
+					<tbody id="card-table" class="collection">
+						<tr ng-repeat="card in cardsController.cards | filter:cardSearch 
+											| deckCardFilter:deckController.cardFactionList:deckController.cardTypeList:deckController.lcgFilterSets:deckController.currentDeck:deckController.filterCurrentDeck
+											| orderBy:sortType:sortReverse">
+							<td>
+								<div class="btn-group" data-toggle="buttons">
+									<label class="btn btn-xs btn-default" ng-class="{activebtn: deckController.getQuantity(card)==0}" ng-click="deckController.updateDeck(card, 0)">0</label>
+									<label class="btn btn-xs btn-default" ng-class="{activebtn: deckController.getQuantity(card)==1}" ng-click="deckController.updateDeck(card, 1)">1</label>
+									<label class="btn btn-xs btn-default" ng-class="{activebtn: deckController.getQuantity(card)==2}" ng-click="deckController.updateDeck(card, 2)" ng-hide="card.limitOne">2</label>
+									<label class="btn btn-xs btn-default" ng-class="{activebtn: deckController.getQuantity(card)==3}" ng-click="deckController.updateDeck(card, 3)" ng-hide="card.limitOne">3</label>
+								</div>
+							</td>
+							<td><a  uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+                         			popover-placement="left" popover-trigger="mouseenter">{{card.name}}</a></td>
+							<td><a>{{card.type | titleCase}}</a></td>
+							<td>
+								<img class="icon-sphere-deck-list" ng-show="card.faction === 'leadership'" src="img/game_icons/Leadership.png"/>
+            					<img class="icon-sphere-deck-list" ng-show="card.faction === 'tactics'" src="img/game_icons/Tactics.png"/>
+            					<img class="icon-sphere-deck-list" ng-show="card.faction === 'lore'" src="img/game_icons/Lore.png"/>
+            					<img class="icon-sphere-deck-list" ng-show="card.faction === 'spirit'" src="img/game_icons/Spirit.png"/>
+            					<img class="icon-sphere-deck-list" ng-show="card.faction === 'baggins'" src="img/game_icons/Baggins.png"/>
+            					<img class="icon-fellowship-deck-list" ng-show="card.faction === 'fellowship'" src="img/game_icons/Fellowship.png"/>
+            				</td>
+						</tr>
+					</tbody>
+				</table>
+			</uib-tab>
+			<uib-tab heading="Stats">
+				<div class="row" style="padding: 10px;">
+					<div class="col-sm-3">
+                        <div class="row">
+						  <h5 style="font-weight: bold;">Deck Breakdown:</h5>
+						  <h5>{{deckController.currentDeckStats.totalCards}} Cards</h5>
+                        </div>
+                        <div class="row">
+                            <h5 style="font-weight: bold;">Starting Threat: {{deckController.currentDeckStats.startingThreat}}</h5>
+                        </div>
+					</div>
+					<div class="col-sm-4">
+						<h5 style="font-weight: bold;">Sphere Breakdown:</h5>
+						<h5 style="color: purple;">{{deckController.currentDeckStats.totalSphere.leadership}} Leadership</h5>
+						<h5 style="color: green;">{{deckController.currentDeckStats.totalSphere.lore}} Lore</h5>
+						<h5 style="color: blue;">{{deckController.currentDeckStats.totalSphere.spirit}} Spirit</h5>
+						<h5 style="color: red;">{{deckController.currentDeckStats.totalSphere.tactics}} Tactics</h5>
+						<h5 style="color: grey;">{{deckController.currentDeckStats.totalSphere.neutral}} Neutral</h5>
+						<h5>{{deckController.currentDeckStats.totalSphere.baggins}} Baggins</h5>
+						<h5 style="color: orange;">{{deckController.currentDeckStats.totalSphere.fellowship}} Fellowship</h5>
+					</div>
+					<div class="col-sm-3">
+						<h5 style="font-weight: bold;">Type Breakdown:</h5>
+						<h5>{{deckController.currentDeckStats.totalType.allies}} Allies</h5>
+						<h5>{{deckController.currentDeckStats.totalType.attachments}} Attachments</h5>
+						<h5>{{deckController.currentDeckStats.totalType.events}} Events</h5>
+						<h5>{{deckController.currentDeckStats.totalType.sideQuests}} Side Quests</h5>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab heading="Save and Details">
+				<label class="card-text-search" style="padding: 10px;">Name: <input ng-model="deckController.currentDeck.name" class="form-control" placeholder="Deck Name" maxlength="50"></label>
+				<label class="card-text-search" style="padding: 10px;">Description: <textarea ng-model="deckController.currentDeck.description" class="form-control" placeholder="250 Character max" maxlength="250" style="height: 110px;"></textarea></label>
+
+				<button type="submit" class="btn btn-warning" ng-click="deckController.saveDeck()">Save</button>
+                <button type="submit" class="btn btn-warning" ng-click="deckController.duplicateDeck()">Duplicate</button>
+				<button type="submit" class="btn btn-danger" ng-click="deckController.removeDeck()" ng-hide="deckController.currentDeck.key==null">Remove</button>
+				<button type="submit" class="btn btn-primary" ng-click="deckController.toggleDeckBBCodeShare()">BBCode</button>
+				<button type="submit" class="btn btn-primary" ng-click="deckController.exportOCTGNFile()">OCTGN</button>
+                <button type="submit" class="btn btn-primary" ng-click="deckController.exportTextFile()">Text</button>
+
+				<p style="padding-top: 10px; font-style: italic;">Last Saved: {{deckController.currentDeck.modifiedDate}}</p>
+				<textarea class="form-control" ng-show="deckController.deckBBCodeShare" style="height: 400px;">{{deckController.getDeckBBCodeShare()}}</textarea>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+</div>

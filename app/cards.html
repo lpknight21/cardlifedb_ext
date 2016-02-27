@@ -1,0 +1,143 @@
+<div class="container-fluid" ng-show="pageController.isSet(1)">
+    <!--Sidebar for searching and filtering cards -->
+    <div class="col-lg-2 col-md-3 col-sm-3">
+        <div class="row" style="padding-left: 12px;">
+            <label class="card-text-search"><input class="form-control" ng-model="cardSearch.name" placeholder="Search by name."></label>
+        </div>
+        <div class="row" style="padding-left: 12px;">
+            <label class="card-text-search"><input class="form-control" ng-model="cardSearch.traits" placeholder="Search by traits."></label>
+        </div>
+        <div class="row" style="padding-left: 12px;">
+            <label class="card-text-search"><input class="form-control" ng-model="cardSearch.text" placeholder="Search by card text."></label>
+        </div>
+        <div class="list-group">
+            <div class="card-sort-by-div">
+                <label class="card-sort-by-label">
+                    Sort By:
+                    <select class="form-control" ng-model="cardsController.sortBySearch">
+                        <option value="faction">Sphere</option>
+                        <option value="name">Name</option>
+                        <option value="cost">Cost</option>
+                        <option value="setId">Set Id</option>
+                        <option value="traits">Traits</option>
+                    </select>
+                </label>
+            </div>
+            <div class="card-reverse-order-div">
+                <label class="card-reverse-order-label">Desc: <input type="checkbox" ng-model="reverseOrder"></label>
+            </div>
+        </div>
+        <div class="list-group">
+            <div class="card-type-filter-div">
+                <label style="width:94%;">
+                    Card Type:
+                    <select class="form-control" ng-model="cardsController.cardTypeSearch">
+                        <option value="">Any</option>
+                        <option value="hero">Hero</option>
+                        <option value="ally">Ally</option>
+                        <option value="event">Event</option>
+                        <option value="attachment">Attachment</option>
+                        <option value="side quest">Side Quest</option>
+                    </select>
+                </label>
+            </div>
+            <div class="card-sphere-div">
+                <label style="width:100%;">
+                    Sphere:
+                    <select class="form-control" ng-model="cardsController.sphereType">
+                        <option value="">Any</option>
+                        <option value="leadership">Leadership</option>
+                        <option value="lore">Lore</option>
+                        <option value="spirit">Spirit</option>
+                        <option value="tactics">Tactics</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="baggins">Baggins</option>
+                        <option value="fellowship">Fellowship</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="list-group">
+            <div>
+                <label class="card-lcgset-filter-label">
+                    Set:
+                    <select class="form-control" ng-model="cardsController.lcgsetType">
+                        <option value="">Any</option>
+                        <option value="{{lcgset.name}}" ng-repeat="lcgset in cardsController.lcgsets">{{lcgset.name}}
+                        </option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <label>Image Size:</label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs" ng-click="cardsController.setCardImageSize('small')">
+                    Small
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs" ng-click="cardsController.setCardImageSize('medium')">
+                    Medium
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs" ng-click="cardsController.setCardImageSize('large')">
+                    Large
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--Non sidebar! Displays cards. -->
+    <div class="col-lg-10 col-md-9 col-sm-9">
+        <uib-tabset>
+            <uib-tab heading="Image">
+                <div ng-class="cardsController.getCardImageTabType(card.type)" ng-repeat="card in cardsController.cards | orderBy:cardsController.sortBySearch:reverseOrder
+                                                          | filter:cardSearch
+                                                          | lotrCardFilter:cardsController.sphereType:cardsController.cardTypeSearch:cardsController.lcgsetType">
+                    <img ng-src="{{cardsController.imageURL}}/{{card.image}}"
+                         uib-popover-template="cardsController.cardModalPopoverTemplate" popover-title="{{card.name}}"
+                         popover-placement="left" popover-trigger="mouseenter"
+                         class="img-rounded" ng-class="cardsController.getCardImageType(card.type)"/>
+                </div>
+            </uib-tab>
+            <uib-tab heading="Text">
+                <div class="card-tab-text" ng-repeat="card in cardsController.cards | orderBy:cardsController.sortBySearch:reverseOrder
+                                                          | filter:cardSearch
+                                                          | lotrCardFilter:cardsController.sphereType:cardsController.cardTypeSearch:cardsController.lcgsetType">
+
+                    <div class="icon-bg" ng-class="cardsController.getFactionIcon(card.faction)"></div>
+
+                    <div class="card-info">
+                        <h4 class="text-center">
+                            <strong><img class="icon-unique" src="img/game_icons/unique.png" ng-show="card.unique"/>&nbsp;{{card.name}}</strong>
+                        </h4>
+                        <div class="text-center text-capitalize">
+                            <p>{{card.type}}
+                                <strong ng-show="cardsController.isCardType('hero', card.type)">({{card.details.threatCost}})</strong>
+                                <strong ng-hide="cardsController.isCardType('hero', card.type)">({{card.cost}})</strong></p>
+                            <span ng-show="card.traits"><em>{{card.traits | stringifyArray}}</em></span>
+                        </div>
+                        <div class="text-center" ng-show="cardsController.isCardType('hero', card.type) || cardsController.isCardType('ally', card.type)">
+                            <span>
+                                {{card.details.willpower}}&nbsp;<img src="img/game_icons/willpower.gif"/>&nbsp;
+                                {{card.details.attack}}&nbsp;<img src="img/game_icons/attack.gif"/>&nbsp;
+                                {{card.details.defense}}&nbsp;<img src="img/game_icons/defense.gif"/>&nbsp;
+                                {{card.details.hitpoints}}<img class="icon-hitpoints" src="img/game_icons/hitpoints.png"/>
+                            </span>
+                        </div>
+                        <div class="bottom-aligned-text">
+                            <blockquote class="card-blockquote">
+                                {{card.text}}
+                                <footer ng-show="card.flavor"><em>{{card.flavor}}</em></footer>
+                            </blockquote>
+                            <div>
+                                <h6>{{card.setInfo.name}}:{{card.setInfo.setId}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

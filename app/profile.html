@@ -1,0 +1,116 @@
+<div class="container" ng-show="pageController.isSet(5)">
+	<div class="list-group" style="padding-top: 18px;">
+		<div class="profile-page-forms" sytle="padding-top: 15px;" ng-hide="deckController.loggedIn">
+        	<uib-tabset class="profile-page-forms">
+            	<uib-tab heading="Login" ng-init="fogotPassword = 'false'">
+                	<form id="frmLogin" role="form" ng-hide="forgotPassword">
+                    	<h2>Login</h2>
+                    	<div class="form-group">
+                        	<label for="txtEmail">Email address</label>
+                        	<input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="email" ng-model="email" required/>
+                    	</div>
+                    	<div class="form-group">
+                        	<label for="txtPass">Password</label>
+                        	<input type="password" class="form-control" id="txtPass" placeholder="Password" name="password" ng-model="password" />
+                    	</div>
+                    	<button type="submit" class="btn btn btn-success btn-block" ng-click="deckController.logIn(email, password)">Login</button>
+                    	<a type="submit" href="" ng-click="forgotPassword = !forgotPassword">Forgot Password?</a>
+                	</form>
+                	<form id="frmForgotPwd" role="form" ng-show="forgotPassword">
+                		<h2>Reset Password</h2>
+                		<div class="form-group">
+                        	<label for="txtEmail">Email address</label>
+                        	<input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="email" ng-model="email" required/>
+                    	</div>
+                    	<button type="submit" class="btn btn btn-success btn-block" ng-click="deckController.forgotPassword(email)">Send Email</button>
+                    	<a type="submit" href="" ng-click="forgotPassword = !forgotPassword">Remembered Password?</a>
+                	</form>
+            	</uib-tab>
+
+            	<uib-tab heading="Register">
+                	<form id="formRegister" role="form">
+                    	<h2>Register</h2>
+                    	<div class="form-group">
+                        	<label for="txtEmail">Email address</label>
+                        	<input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="email" ng-model="regEmail"/>
+                    	</div>
+                    	<div class="form-group">
+                        	<label for="txtPass">Password</label>
+                        	<input ng-show="showpassword" class="form-control" placeholder="Enter password" type="text" ng-model="regPassword">
+                        	<input ng-hide="showpassword" class="form-control" placeholder="Enter password" type="password" ng-model="regPassword">
+
+                        	<input type="checkbox" ng-model="showpassword" ng-checked="false">
+                        	<label for="txtPass">Show Password</label>
+                    	</div>
+                        <input type="hidden" ng-model="userField" type="text">
+                    	<button type="submit" class="btn btn btn-success btn-block" ng-click="deckController.registerAndLogIn(regEmail, regPassword, userField)">Register</button>
+                	</form>
+            	</uib-tab>
+        	</uib-tabset>
+    	</div>
+
+    	<div ng-show="deckController.loggedIn" class="profile-page-forms">
+    		<uib-tabset class="profile-page-forms">
+    			<uib-tab heading="Logout">
+    				<form id="frmLogout" role="form" class="profile-update-form" style="padding-top: 50px;">
+            			<button type="submit" class="btn btn btn-warning btn-block" ng-click="deckController.logout()">Logout</button>
+        			</form>
+    			</uib-tab>
+
+            	<uib-tab heading="Update Email">
+					<form id="frmUpdateEmail" role="form" class="profile-update-form">
+						<div class="form-group">
+                	        <label for="txtEmail">Current Email address</label>
+                	        <input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="currentEmail" ng-model="deckController.userEmail"/>
+                		</div>
+                		<div class="form-group">
+                	        <label for="txtEmail">New Email address</label>
+                	        <input type="email" class="form-control" id="txtEmail" placeholder="Enter new email" name="updatedEmail" ng-model="deckController.updatedEmail" required/>
+                		</div>
+                		<div class="form-group">
+                        	<label for="txtPass">Password</label>
+                        	<input type="password" class="form-control" id="txtPass" placeholder="Password" name="emailPassword" ng-model="deckController.emailPassword" required />
+                    	</div>
+            			<button type="submit" class="btn btn btn-primary btn-block"
+            					ng-click="deckController.updateEmail(deckController.userEmail, deckController.updatedEmail, deckController.emailPassword)">Update Email</button>
+            		</form>
+            	</uib-tab>
+
+            	<uib-tab heading="Change Password">
+        			<form id="frmChangePwd" role="form" class="profile-update-form">
+        				<div class="form-group">
+                        	<label for="txtPass">Current Password</label>
+                        	<input class="form-control" placeholder="Enter password" type="password" ng-model="deckController.currentPassword" required>
+                    	</div>
+        				<div class="form-group">
+                        	<label for="txtPass">New Password</label>
+                        	<input ng-show="showpassword" class="form-control" placeholder="Enter password" type="text" ng-model="deckController.newPassword" required>
+                        	<input ng-hide="showpassword" class="form-control" placeholder="Enter password" type="password" ng-model="deckController.newPassword" required>
+
+                        	<input type="checkbox" ng-model="showpassword" ng-checked="false">
+                        	<label for="txtPass">Show Password</label>
+                    	</div>
+            			<button type="submit" class="btn btn btn-primary btn-block" 
+                                ng-click="deckController.updatePassword(deckController.userEmail, deckController.currentPassword, deckController.newPassword)">Update Password</button>
+        			</form>
+        		</uib-tab>
+
+        		<uib-tab heading="Add Local Decks">
+        			<form id="frmSync" role="form" class="profile-update-form">
+            			<button type="submit" class="btn btn btn-success btn-block" ng-click="deckController.syncLocalDecks()">Add Local Decks to Account</button>
+        			</form>
+        		</uib-tab>
+
+        		<uib-tab heading="Remove Account">
+        			<form id="frmRemoveAcct" role="form" class="profile-update-form">
+        				<div class="form-group">
+                        	<label for="txtPass">Password</label>
+                        	<input class="form-control" placeholder="Enter password" type="password" ng-model="deckController.currentPassword" required>
+                    	</div>
+            			<button type="submit" class="btn btn btn-danger btn-block" ng-click="deckController.removeAccount(deckController.userEmail, deckController.currentPassword)">Delete Permanently</button>
+        			</form>
+        		</uib-tab>
+        	</uib-tabset>
+        </div>
+	</div>
+</div>

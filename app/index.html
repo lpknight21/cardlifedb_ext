@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="cardlifeApp" ng-controller="PageController as pageController">
+<head>
+    <title>CardLife DB</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="vendor/normalize-css/normalize.css"/>
+    <link rel="stylesheet" href="css/cardlife.css"/>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="vendor/angular-smart-table/dist/smart-table.js"></script>
+    <script src="vendor/angular-smart-table/dist/smart-table.min.js"></script>
+    <script src="vendor/checklist-model/checklist-model.js"></script>
+    <script src="vendor/firebase/firebase.js"></script>
+    <script src="vendor/lz-string/libs/base64-string.js"></script>
+    <script src="vendor/lz-string/libs/lz-string.js"></script>
+    <script src="js/cardlife.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">CardLife DB</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href ng-click="pageController.setTab(1)" ng-class="{activetab: pageController.isSet(1)}">Cards</a></li>
+                <li><a href ng-click="pageController.setTab(2)" ng-class="{activetab: pageController.isSet(2)}">Decks</a></li>
+                <li><a href ng-click="pageController.setTab(3)" ng-class="{activetab: pageController.isSet(3)}">Resources</a></li>
+                <li><a href ng-click="pageController.setTab(4)" ng-class="{activetab: pageController.isSet(4)}">About</a></li>
+                <li><a href ng-click="pageController.setTab(5)" ng-class="{activetab: pageController.isSet(5)}">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div ng-controller="CardsController as cardsController">
+    <div ng-controller="DeckController as deckController">
+        <div ng-include="'cards.html'"></div>
+        <div ng-include="'decks.html'"></div>
+        <div ng-include="'resources.html'"></div>
+        <div ng-include="'about.html'"></div>
+        <div ng-include="'profile.html'"></div>
+    </div>
+</div>
+<!--Script for card popup goes here so we can use mouseenter -->
+<script type="text/ng-template" id="cardModalPopoverTemplate.html">
+    <div class="text-capitalize">
+        <p><span ng-show="card.faction === 'leadership'"><img class="icon-sphere" src="img/game_icons/Leadership.png"/> | </span>
+            <span ng-show="card.faction === 'tactics'"><img class="icon-sphere" src="img/game_icons/Tactics.png"/> | </span>
+            <span ng-show="card.faction === 'lore'"><img class="icon-sphere" src="img/game_icons/Lore.png"/> | </span>
+            <span ng-show="card.faction === 'spirit'"><img class="icon-sphere" src="img/game_icons/Spirit.png"/> | </span>
+            <span ng-show="card.faction === 'baggins'"><img class="icon-sphere" src="img/game_icons/Baggins.png"/> | </span>
+            <span ng-show="card.faction === 'fellowship'"><img class="icon-fellowship-popup" src="img/game_icons/Fellowship.png"/> | </span>
+            <span ng-show="card.unique">&nbsp;<img class="icon-unique" style="position: relative;" src="img/game_icons/unique.png"/>&nbsp;</span>
+            {{card.type}}
+        <strong ng-show="cardsController.isCardType('hero', card.type)">({{card.details.threatCost}})</strong>
+        <strong ng-hide="cardsController.isCardType('hero', card.type)">({{card.cost}})</strong></p>
+        <span ng-show="card.traits"><em>{{card.traits | stringifyArray}}</em></span>
+    </div>
+    <div ng-show="cardsController.isCardType('hero', card.type) || cardsController.isCardType('ally', card.type)">
+        <span>
+            {{card.details.willpower}}&nbsp;<img src="img/game_icons/willpower.gif"/>&nbsp;
+            {{card.details.attack}}&nbsp;<img src="img/game_icons/attack.gif"/>&nbsp;
+            {{card.details.defense}}&nbsp;<img src="img/game_icons/defense.gif"/>&nbsp;
+            {{card.details.hitpoints}}<img class="icon-hitpoints-popover" src="img/game_icons/hitpoints.png"/>
+        </span>
+    </div>
+    <div>{{card.text}}</div>
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+.card-blockquote {
+    font-size: medium;
+}
+
+.card-text-search {
+    width:100%;
+    padding-bottom: 10px;
+}
+
+.card-sort-by-div {
+    width:80%;
+    float: left;
+    padding-bottom: 10px;
+}
+
+.card-sort-by-label {
+    width:95%;
+}
+
+.card-reverse-order-div {
+    width:20%;
+    float:left;
+}
+
+.card-reverse-order-label {
+    width:100%;
+    padding-top:33px;
+}
+
+.card-type-filter-div, .card-sphere-div {
+    width:50%;
+    float:left;
+    padding-bottom:10px;
+}
+
+.card-lcgset-filter-label {
+    width:100%;
+    padding-bottom: 10px;
+}
+
+.card-tab-deck-image-src {
+    width:170px;
+    height:230px;
+}
+
+.bottom-align-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.hero-name-deck {
+    padding-top: 15px; 
+    padding-bottom: 10px;
+    text-align: center; 
+    display: block;
+}
+
+.icon-bg {
+    text-align: center;
+    filter: alpha(opacity=15);
+    /* IE */
+    -moz-opacity: 0.15;
+    /* Mozilla */
+    opacity: 0.15;
+    /* CSS3 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.icon-leadership {
+    background: url("../img/game_icons/Leadership.png") no-repeat center;
+}
+
+.icon-lore {
+    background: url("../img/game_icons/Lore.png") no-repeat center;
+}
+
+.icon-spirit {
+    background: url("../img/game_icons/Spirit.png") no-repeat center;
+}
+
+.icon-tactics {
+    background: url("../img/game_icons/Tactics.png") no-repeat center;
+}
+
+.icon-baggins {
+    background: url("../img/game_icons/Baggins.png") no-repeat center;
+}
+
+.icon-fellowship {
+    background: url("../img/game_icons/Fellowship.png") no-repeat center;
+}
+
+.icon-hitpoints {
+    width:7%;
+    height:20%;
+}
+
+.icon-unique {
+    width:4%;
+    height:11%;
+}
+
+.icon-sphere {
+    width:10%;
+    height:20%;
+}
+
+.icon-sphere-about {
+    height:40px;
+}
+
+.icon-sphere-deck-list {
+    height:14%;
+}
+
+.icon-sphere-deck-list-sm {
+    height: 16px; 
+}
+
+.icon-fellowship-deck-list {
+    padding-left: 4px;
+    width:25%;
+    height:80%;
+}
+
+.icon-fellowship-popup {
+    width:6%;
+    height:12%;
+}
+
+.icon-hitpoints-popover {
+    width:10%;
+    height:20%;
+}
+
+.card-tab-text {
+    position: relative;
+    width:390px;
+    height: 350px;
+    float:left;
+    padding-top: 10px;
+}
+
+.card-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.deck-text-filter-top {
+    padding-left: 10px; 
+    padding-right: 10px; 
+    padding-top: 10px;
+}
+
+.deck-text-filter {
+    padding-left: 10px; 
+    padding-right: 10px; 
+}
+
+.activetab {
+  color: #fff !important;
+}
+
+.activebtn {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+
+
+
+.card-tab-image-src {
+    width:175px;
+    height:244px;
+}
+
+.card-tab-image {
+    width:190px;
+    height: 252px;
+    float:left;
+    padding-top: 10px;
+}
+
+.side-quest-tab-image-src {
+    width:263px;
+    height:180px;
+}
+
+.side-quest-tab-image {
+    width:280px;
+    height: 252px;
+    float:left;
+    padding-top: 10px;
+}
+
+
+
+.card-tab-image-src-md {
+    width:220px;
+    height:310px;
+}
+
+.card-tab-image-md {
+    width:230px;
+    height: 320px;
+    float:left;
+    padding-top: 10px;
+}
+
+.side-quest-tab-image-src-md {
+    width:320px;
+    height:230px;
+}
+
+.side-quest-tab-image-md {
+    width:330px;
+    height: 320px;
+    float:left;
+    padding-top: 10px;
+}
+
+
+
+.card-tab-image-src-lg {
+    width:290px;
+    height:400px;
+}
+
+.card-tab-image-lg {
+    width:300px;
+    height: 410px;
+    float:left;
+    padding-top: 10px;
+}
+
+.side-quest-tab-image-src-lg {
+    width:425px;
+    height:310px;
+}
+
+.side-quest-tab-image-lg {
+    width:435px;
+    height: 410px;
+    float:left;
+    padding-top: 10px;
+}
+
+.profile-update-form {
+    padding-top: 30px;
+}
+
+.profile-page-forms {
+    width: 90%; 
+    padding-left: 10%;
+}
